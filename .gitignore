@@ -1,0 +1,3 @@
+blender/blender_bin/*
+!/blender/blender_bin/.gitignore
+src/.vs

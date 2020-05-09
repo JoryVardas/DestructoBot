@@ -1,0 +1,35 @@
+NEEDED
+-ability to move
+-DONE models
+	-models are currently loaded as a single mesh,
+	 there is no way to submodels loaded yet.
+-movement
+-shooting
+	-finding what is being shot at.
+		-use the name stack method with a restriced render view to get an idea of the objects that could have been selected.
+		- then itterate over them and tranform them to world space of previous frame, then check for interection with ray
+		-if intersection is found, we have the object that was targeted (only one object can be)
+		-otherwise fire into the void along the ray.
+-DONE makefile
+	-have makefile (A) in code file
+	-have makefile at root dir, and have it call (A).
+
+USEFUL
+-DONE loading models
+ 
+-DONE add normal to vertex definition
+
+-way to tell apart different types of buildings
+-way to tell how damaged a building is
+
+WANTED
+
+-shooting
+	-finding what point on what object is being shot at
+	-projectile
+-basic animation
+	-how to do collision detection??
+-texturing
+	-add texture coordinates to vertex definition
+-lighting
+-shadowing

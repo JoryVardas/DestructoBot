@@ -1,0 +1,107 @@
+import os
+import sys
+import bpy
+import math
+
+# The models will include any objects in the scene.
+# this includes lights.
+models = bpy.context.scene.objects
+project_name = os.path.basename(bpy.data.filepath).split('.')[0]
+out_file = open(project_name + ".model", 'w')
+
+newline = "\n"
+
+default_color_r = 0
+default_color_g = 0
+default_color_b = 0
+
+#start the model data section of the file
+out_file.write("START_MODEL_DATA" + newline)
+
+#for each object
+for model in models:
+    
+    #if this is a mesh, we can get the polygons
+    if model.type == "MESH":
+        
+        #write the start of the model to the file
+        out_file.write("START_MESH" + " " + model.name + newline)
+        
+        mesh = model.data
+        vertices = mesh.vertices
+        colors = model.data.vertex_colors
+        
+        for poly in mesh.polygons:
+            loop_indicies = poly.loop_indices
+            
+            for loop_index in loop_indicies:
+                #we need to get the actual vertex from the mesh.
+                index = mesh.loops[loop_index].vertex_index
+                vertex = vertices[index]
+                vert_color = [default_color_r, default_color_g, default_color_b]
+                if(len(colors) != 0):
+                    vert_color = [colors[0].data[loop_index].color.r, colors[0].data[loop_index].color.g, colors[0].data[loop_index].color.b]
+                
+                # we have to swap the y and z components, since blender has z as up.
+                
+                
+                #get the coordinates of the vertex
+                out_file.write(str(vertex.co[0]) + " " + str(vertex.co[2]) + " " +str(vertex.co[1]) + newline)
+                
+                #get the normal of the vertexdata
+                out_file.write(str(vertex.normal[0]) + " " + str(vertex.normal[2]) + " " + str(vertex.normal[1]) + newline)
+                
+                #write the color to the vertex
+                out_file.write(str(vert_color[0]) + " " + str(vert_color[1]) + " " + str(vert_color[2]) + newline)
+                
+        out_file.write("END_MESH" + newline);
+        
+out_file.write("END_MODEL_DATA" + newline);
+
+#now that we have written all the mesh data, now we can write the transformation data
+out_file.write("START_TRANSFORMATION_DATA" + newline);
+for model in models:
+    if model.type == "MESH":
+        out_file.write("START_TRANSFORMATION " + model.name + newline);
+        
+        trans, rot, scale = model.matrix_local.decompose();
+
+        #conver the rotation quaternion into an axis and rotation amount that we can use.
+        rot_Q = 2 * math.acos(rot[0])
+        rot_Q2 = math.acos(rot[0])
+
+        #default rotation axis (no real reason that it is this)    
+        rot_x = 0;
+        rot_y = 0;
+        rot_z = 1;
+
+        if(rot_Q != 0):
+            rot_x = rot[1]/math.sin(rot_Q2)
+            rot_y = rot[2]/math.sin(rot_Q2)
+            rot_z = rot[3]/math.sin(rot_Q2)
+        rot_amount = rot_Q * (180 / math.pi)
+
+        out_file.write(str(trans[0]) + " " + str(trans[2]) + " " + str(trans[1]) + newline);
+        out_file.write(str(scale[0]) + " " + str(scale[2]) + " " + str(scale[1]) + newline);
+        out_file.write(str(rot_x) + " " + str(rot_z) + " " + str(rot_y) + " " + str(rot_amount) + newline);
+
+
+        out_file.write("END_TRANSFORMATION" + newline);
+    
+
+out_file.write("END_TRANSFORMATION_DATA" + newline);
+out_file.close()
+
+
+#if we were called from the command line close blender
+exit = "F"
+try:
+    arguments = sys.argv[sys.argv.index("--") + 1:]
+    if "exit" in arguments:
+        exit = "T"
+
+except ValueError:
+    exit = "F"
+
+if exit == "T":
+    bpy.ops.wm.quit_blender()

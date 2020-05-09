@@ -1,0 +1,13 @@
+#!/bin/bash
+
+BLENDER=blender_bin/blender
+MODEL_DATA_FOLDER=../cpsc2710proj/Debug/data
+
+for file in *.blend; do
+     $BLENDER $file -P export.txt  -- 0.2 0.2 0.6 exit
+ #   echo ../$file
+done
+
+for model in *.model; do
+	cp $model $MODEL_DATA_FOLDER/$model
+done
