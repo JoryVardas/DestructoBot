@@ -1,3 +1,8 @@
 blender/blender_bin/*
 !/blender/blender_bin/.gitignore
 src/.vs
+.vs
+bin/*
+!bin/data
+!bin/*.dll
+/lib/*

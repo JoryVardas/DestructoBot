@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BLENDER=blender_bin/blender
-MODEL_DATA_FOLDER=../src/Debug/data
+MODEL_DATA_FOLDER=../bin/data
 
 for file in *.blend; do
      $BLENDER $file -P export.txt  -- 0.2 0.2 0.6 exit
