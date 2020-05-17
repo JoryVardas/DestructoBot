@@ -11,7 +11,7 @@
 #include <GL/glu.h>
 #endif
 
-#include <GL/glut.h>
+#include <GLFW/glfw3.h>
 
 #include <vector>
 #include <string>
@@ -22,7 +22,7 @@
 
 extern int WindowHeight;
 extern int WindowWidth;
-extern int WindowID;
+extern GLFWwindow* WindowPtr;
 
 extern std::string BinaryDirectory;
 

@@ -1,6 +1,6 @@
 CC = g++
 CCFLAGS =  -std=c++11 -I/usr/include/ -L/usr/lib/ -g
-LIBRARIES = -lX11 -lXi -lXmu -lglut -lGL -lGLU -lm
+LIBRARIES = -lX11 -lXi -lXmu -lglfw3 -lGL -lGLU -lm
 
 OBJS = animation.o building.o callbackFunctions.o camera.o includes.o loader.o model.o object.o polygon.o project.o projFunctions.o propertyFile.o scene.o vertex.o
 

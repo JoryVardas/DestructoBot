@@ -4,5 +4,4 @@ src/.vs
 .vs
 bin/*
 !bin/data
-!bin/*.dll
 /lib/*

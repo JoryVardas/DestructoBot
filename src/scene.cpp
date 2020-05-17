@@ -99,7 +99,8 @@ void Scene::render() {
 	//render the character
 	_characterModel.draw(false);
 
-	glutSwapBuffers();
+	//!//glutSwapBuffers();
+	glfwSwapBuffers(WindowPtr);
 };
 
 ///update to be in line with render

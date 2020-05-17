@@ -3,7 +3,7 @@
 
 int WindowHeight = 600;
 int WindowWidth = 600;
-int WindowID = null;
+GLFWwindow* WindowPtr = null;
 
 std::string BinaryDirectory = "";
 
